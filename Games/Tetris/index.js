@@ -56,7 +56,7 @@ const colors = {
   'S': 'green',
   'Z': 'red',
   'J': 'blue',
-  'L': 'orange'
+  'L': '#e24ee7'
 };
 
 function getRandomInt(min, max) {
@@ -108,11 +108,9 @@ function isValidMove(matrix, cellRow, cellColumn) {
   for (let row = 0; row < matrix.length; row++) {
     for (let col = 0; col < matrix[row].length; col++) {
       if (matrix[row][col] && (
-          // outside the game bounds
           cellColumn + col < 0 ||
           cellColumn + col >= playfield[0].length ||
           cellRow + row >= playfield.length ||
-          // collides with another piece
           playfield[cellRow + row][cellColumn + col])
         ) {
         return false;
@@ -128,7 +126,6 @@ function placeTetromino() {
     for (let col = 0; col < tetromino.matrix[row].length; col++) {
       if (tetromino.matrix[row][col]) {
 
-        // game over if piece has any part offscreen
         if (tetromino.row + row < 0) {
           return showGameOver();
         }
@@ -138,11 +135,9 @@ function placeTetromino() {
     }
   }
 
-  // check for line clears starting from the bottom and working our way up
   for (let row = playfield.length - 1; row >= 0; ) {
     if (playfield[row].every(cell => !!cell)) {
 
-      // drop every row above this one
       for (let r = row; r >= 0; r--) {
         for (let c = 0; c < playfield[r].length; c++) {
           playfield[r][c] = playfield[r-1][c];
@@ -162,7 +157,6 @@ function showGameOver() {
   gameOver = true;
 
   context.fillStyle = 'black';
-  //context.globalAlpha = 0.75;
   context.fillRect(0, canvas.height / 2 - 30, canvas.width, 60);
 
   context.globalAlpha = 1;
