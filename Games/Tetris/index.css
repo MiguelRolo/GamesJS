@@ -1,0 +1,86 @@
+body {
+  background-color: #333;
+  margin: 0;
+  padding: 0;
+  font-family: 'Courier New', Courier, monospace;
+  user-select: none;
+}
+
+#main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#header {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+}
+
+#header > #title {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+#header > #options button {
+  background-color: firebrick;
+  color: whitesmoke;
+  padding: 0.5rem 2rem;
+  border: 1px solid rgba(15,15,15,0.5);
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+#header > #options button:hover {
+  color: black;
+  cursor: pointer;
+}
+
+#board {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 50px;
+  margin: 1rem;
+  color: white;
+}
+
+#board > #settings {
+  display: flex;
+  flex-direction: column;
+  width: 150px;
+  text-align: end;
+}
+
+#board > #settings > #keys {
+  margin-top: 50px;
+}
+
+#board > #settings > #keys table {
+  float: right;
+  text-align: center;
+}
+
+/*#board > #game {
+  border: 1px solid black;
+  height: 75vh;
+  width: 300px;
+}*/
+
+#board > #next {
+  width: 150px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/*#board > #next > #nextpiece {
+  width: 100px;
+  height: 100px;
+  border: 1px solid black;
+}*/

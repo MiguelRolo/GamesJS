@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Tetris JS</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <!-- https://erikdemaine.org/fonts/tetris/?grid=1 -->
+  <!-- https://www.neilb.net/tetrisjs/ -->
+  <!-- https://gist.github.com/straker/3c98304f8a6a9174efd8292800891ea1 -->
+  <section id="main">
+    <section id="header">
+      <section id="title">
+        <h3>Tetris JS</h3>
+        <a href="https://github.com/MiguelRolo/tetris-js" target="_blank">
+          <img 
+            alt="Repository" 
+            title="Repository" 
+            style="border-radius: 15px;"
+            src="https://img.shields.io/badge/Repository-181717?style=for-the-badge&logo=github&logoColor=white"
+          />
+        </a>
+      </section>
+      <section id="options">
+        <button>Start</button>
+        <button>Pause</button>
+      </section>
+    </section>
+    <section id="board">
+      <section id="settings">
+        <span><b>FPS:</b><span id="fps-counter">00</span></span>
+        <!--<span><b>Level:</b>00</span>
+        <span><b>Lines:</b>00</span>-->
+        <section id="keys">
+          <table>
+            <tr>
+              <td><b>up</b></td>
+              <td><div style="width:20px;"></div></td>
+              <td>Rotate</td>
+            </tr>
+            <tr>
+              <td><b>left&nbsp;right</b></td>
+              <td><div style="width:20px;"></div></td>
+              <td>Move</td>
+            </tr>
+            <tr>
+              <td><b>down</b></td>
+              <td><div style="width:20px;"></div></td>
+              <td>Down</td>
+            </tr>
+            <tr>
+              <td><b>D</b></td>
+              <td><div style="width:20px;"></div></td>
+              <td>Drop</td>
+            </tr>
+            <tr>
+              <td><b>P</b></td>
+              <td><div style="width:20px;"></div></td>
+              <td>Pause</td>
+            </tr>
+            <tr>
+              <td><b>N</b></td>
+              <td><div style="width:20px;"></div></td>
+              <td>New Game</td>
+            </tr>
+          </table>
+        </section>
+      </section>
+      <canvas id="game" width="250" height="500"></canvas>
+      <section id="next">
+        <span><b>Next piece</b></span>
+        <canvas id="nextpiece" width="100" height="100"></canvas>
+      </section>
+    </section>
+  </section>
+  <script src="index.js"></script>
+</body>
+</html>
