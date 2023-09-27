@@ -215,6 +215,7 @@ let count = 0;
 let linesCounter = 0;
 let nextTetromino = getNextTetromino();
 let tetromino = nextTetromino;
+let holdTetromino = null;
 let rAF = null;
 let gameOver = false;
 let gameStart = false;
@@ -280,6 +281,35 @@ function game() {
   }
   
   if (gameStart) {
+    if (holdTetromino) {
+      for (let row = 0; row < holdTetromino.matrix.length; row++) {
+        for (let col = 0; col < holdTetromino.matrix[row].length; col++) {
+          if (holdTetromino.matrix[row][col]) {
+            holdPieceContext.fillStyle = 'white';
+            holdPieceContext.fillRect(
+              holdTetromino.name === 'I' 
+                ? col * grid 
+                : (col + 1) * grid, 
+              holdTetromino.name === 'I' ? row * grid : (row + 1) * grid, 
+              grid-1, 
+              grid-1
+            );
+            holdPieceContext.fillStyle = colors[holdTetromino.name];
+            holdPieceContext.fillRect(
+              holdTetromino.name === 'I'
+                ? (col * grid) + 1
+                : ((col + 1) * grid) + 1, 
+              holdTetromino.name === 'I'
+                ? (row * grid) + 1
+                : ((row + 1) * grid) + 1, 
+              (grid-1) - 2, 
+              (grid-1) - 2
+            )
+          }
+        }
+      }
+    }
+
     if (nextTetromino) {
       
       for (let row = 0; row < nextTetromino.matrix.length; row++) {
@@ -380,29 +410,27 @@ document.getElementById('pause-game').onclick = (e) => {
 }
 
 document.addEventListener('keydown', (e) => {
-  if (gameOver) return;
-
-  if (!gameStart) {
-    if (e.key === 'n') {
-      gameStart = true;
-      tetromino = nextTetromino;
-      nextTetromino = getNextTetromino();
-      document.getElementById('start-game').innerText = 'New Game';
+  if (e.key === 'n') {
+    if (gameOver) {
+      rAF = requestAnimationFrame(game);
+      gameOver = false;
+    }
+    tetromino = nextTetromino;
+    nextTetromino = getNextTetromino();
+    document.getElementById('start-game').innerText = 'New Game';
+    gameStart = true;
+    linesCounter = 0;
+    holdTetromino = null;
+    for (let row = 0; row < 20; row++) {
+      for (let column = 0; column < 10; column++) {
+        playfield[row][column] = 0;
+      }
     }
   }
 
+  if (gameOver) return;
+
   if (gameStart) {
-    if (e.key === 'n') {
-      gameStart = true;
-      for (let row = 0; row < 20; row++) {
-        for (let column = 0; column < 10; column++) {
-          playfield[row][column] = 0;
-        }
-      }
-      tetromino = nextTetromino;
-      nextTetromino = getNextTetromino();
-      linesCounter = 0;
-    }
     if (e.key === 'p') {
       if (!gamePause) {
         gamePause = true;
@@ -412,6 +440,14 @@ document.addEventListener('keydown', (e) => {
         gamePause = false;
         document.getElementById('pause-game').innerText = 'Pause';
       }
+    }
+    if (e.key === ' ') {
+      console.log('drop')
+    }
+    if (e.key === 'x' && !holdTetromino) {
+      holdTetromino = tetromino;
+      tetromino = nextTetromino;
+      nextTetromino = getNextTetromino();
     }
 
     if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
