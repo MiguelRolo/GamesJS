@@ -246,12 +246,14 @@ function game() {
   
   if (gameStart) {
     if (nextTetromino) {
-      nextPieceContext.fillStyle = colors[nextTetromino.name];
-  
+      
       for (let row = 0; row < nextTetromino.matrix.length; row++) {
         for (let col = 0; col < nextTetromino.matrix[row].length; col++) {
           if (nextTetromino.matrix[row][col]) {
-            nextPieceContext.fillRect((col) * grid, (row) * grid, grid-1, grid-1);
+            nextPieceContext.fillStyle = 'white';
+            nextPieceContext.fillRect(col * grid, row * grid, grid-1, grid-1);
+            nextPieceContext.fillStyle = colors[nextTetromino.name];
+            nextPieceContext.fillRect((col * grid) + 1, (row * grid) + 1, (grid-1) - 2, (grid-1) - 2)
           }
         }
       }
@@ -270,12 +272,14 @@ function game() {
         }
       }
   
-      context.fillStyle = colors[tetromino.name];
-  
+      
       for (let row = 0; row < tetromino.matrix.length; row++) {
         for (let col = 0; col < tetromino.matrix[row].length; col++) {
           if (tetromino.matrix[row][col]) {
+            context.fillStyle = 'white';
             context.fillRect((tetromino.column + col) * grid, (tetromino.row + row) * grid, grid-1, grid-1);
+            context.fillStyle = colors[tetromino.name];
+            context.fillRect(((tetromino.column + col) * grid) + 1, ((tetromino.row + row) * grid) + 1, (grid-1) - 2, (grid-1) - 2);
           }
         }
       }
