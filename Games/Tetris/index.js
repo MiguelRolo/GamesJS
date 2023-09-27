@@ -136,8 +136,9 @@ function placeTetromino() {
   }
 
   for (let row = playfield.length - 1; row >= 0; ) {
-    if (playfield[row].every(cell => !!cell)) {
-
+    if (playfield[row].every(cell => !!cell))  {
+      linesCounter++;
+      document.getElementById('lines-counter').innerText = ('0' + linesCounter).slice(-2);
       for (let r = row; r >= 0; r--) {
         for (let c = 0; c < playfield[r].length; c++) {
           playfield[r][c] = playfield[r-1][c];
@@ -187,6 +188,7 @@ for (let row = -2; row < 20; row++) {
 }
 
 let count = 0;
+let linesCounter = 0;
 let nextTetromino = getNextTetromino();
 let tetromino = nextTetromino;
 let rAF = null;
@@ -228,9 +230,11 @@ function game() {
       context.fillRect(column * grid, 0, grid - 1, canvas.height);
       if (playfield[row][column]) {
         const name = playfield[row][column];
-        context.fillStyle = colors[name];
         
+        context.fillStyle = 'white';
         context.fillRect(column * grid, row * grid, grid - 1, grid - 1);
+        context.fillStyle = colors[name];
+        context.fillRect((column * grid) + 1, (row * grid) + 1, (grid - 1) - 2, (grid - 1) - 2);
       }
     }
   }
@@ -251,9 +255,25 @@ function game() {
         for (let col = 0; col < nextTetromino.matrix[row].length; col++) {
           if (nextTetromino.matrix[row][col]) {
             nextPieceContext.fillStyle = 'white';
-            nextPieceContext.fillRect(col * grid, row * grid, grid-1, grid-1);
+            nextPieceContext.fillRect(
+              nextTetromino.name === 'I' 
+                ? col * grid 
+                : (col + 1) * grid, 
+              nextTetromino.name === 'I' ? row * grid : (row + 1) * grid, 
+              grid-1, 
+              grid-1
+            );
             nextPieceContext.fillStyle = colors[nextTetromino.name];
-            nextPieceContext.fillRect((col * grid) + 1, (row * grid) + 1, (grid-1) - 2, (grid-1) - 2)
+            nextPieceContext.fillRect(
+              nextTetromino.name === 'I'
+                ? (col * grid) + 1
+                : ((col + 1) * grid) + 1, 
+              nextTetromino.name === 'I'
+                ? (row * grid) + 1
+                : ((row + 1) * grid) + 1, 
+              (grid-1) - 2, 
+              (grid-1) - 2
+            )
           }
         }
       }
