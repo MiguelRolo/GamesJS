@@ -148,15 +148,13 @@ function placeTetromino() {
       row--;
     }
   }
-
-  tetromino = getNextTetromino();
 }
 
 function showGameOver() {
   cancelAnimationFrame(rAF);
   gameOver = true;
 
-  context.fillStyle = 'black';
+  context.fillStyle = 'firebrick';
   context.fillRect(0, canvas.height / 2 - 30, canvas.width, 60);
 
   context.globalAlpha = 1;
@@ -165,6 +163,18 @@ function showGameOver() {
   context.textAlign = 'center';
   context.textBaseline = 'middle';
   context.fillText('GAME OVER', canvas.width / 2, canvas.height / 2);
+}
+
+function showGameStart() {
+  context.fillStyle = 'firebrick';
+  context.fillRect(0, canvas.height / 2 - 30, canvas.width, 60);
+
+  context.globalAlpha = 1;
+  context.fillStyle = 'white';
+  context.font = '15px monospace';
+  context.textAlign = 'center';
+  context.textBaseline = 'middle';
+  context.fillText('START GAME', canvas.width / 2, canvas.height / 2);
 }
 
 
@@ -177,9 +187,12 @@ for (let row = -2; row < 20; row++) {
 }
 
 let count = 0;
-let tetromino = getNextTetromino();
+let nextTetromino = getNextTetromino();
+let tetromino = nextTetromino;
 let rAF = null;
 let gameOver = false;
+let gameStart = false;
+let gamePause = false;
 
 function fpsMeter() {
   let prevTime = Date.now();
@@ -202,7 +215,9 @@ function fpsMeter() {
 }
 
 function game() {
-  rAF = requestAnimationFrame(game);
+  if (!gamePause) {
+    rAF = requestAnimationFrame(game);
+  }
   context.clearRect(0, 0, canvas.width, canvas.height);
   nextPieceContext.clearRect(0, 0, nextPieceCanvas.width, nextPieceCanvas.height);
 
@@ -220,6 +235,7 @@ function game() {
     }
   }
 
+  
   for (let row = 0; row < 5; row++) {
     for (let column = 0; column < 5; column++) {
       nextPieceContext.fillStyle = 'rgba(25,25,25,0.05)';
@@ -227,29 +243,65 @@ function game() {
       nextPieceContext.fillRect(column * grid, 0, grid - 1, nextPieceCanvas.height);
     }
   }
-
-
-  if (tetromino) {
-
-    if (++count > 35) {
-      tetromino.row++;
-      count = 0;
-      
-      if (!isValidMove(tetromino.matrix, tetromino.row, tetromino.column)) {
-        tetromino.row--;
-        placeTetromino();
-      }
-    }
-
-    context.fillStyle = colors[tetromino.name];
-
-    for (let row = 0; row < tetromino.matrix.length; row++) {
-      for (let col = 0; col < tetromino.matrix[row].length; col++) {
-        if (tetromino.matrix[row][col]) {
-
-          context.fillRect((tetromino.column + col) * grid, (tetromino.row + row) * grid, grid-1, grid-1);
+  
+  if (gameStart) {
+    if (nextTetromino) {
+      nextPieceContext.fillStyle = colors[nextTetromino.name];
+  
+      for (let row = 0; row < nextTetromino.matrix.length; row++) {
+        for (let col = 0; col < nextTetromino.matrix[row].length; col++) {
+          if (nextTetromino.matrix[row][col]) {
+            nextPieceContext.fillRect((col) * grid, (row) * grid, grid-1, grid-1);
+          }
         }
       }
+    }
+    if (tetromino) {
+  
+      if (++count > 35) {
+        tetromino.row++;
+        count = 0;
+        
+        if (!isValidMove(tetromino.matrix, tetromino.row, tetromino.column)) {
+          tetromino.row--;
+          placeTetromino();
+          tetromino = nextTetromino;
+          nextTetromino = getNextTetromino();
+        }
+      }
+  
+      context.fillStyle = colors[tetromino.name];
+  
+      for (let row = 0; row < tetromino.matrix.length; row++) {
+        for (let col = 0; col < tetromino.matrix[row].length; col++) {
+          if (tetromino.matrix[row][col]) {
+            context.fillRect((tetromino.column + col) * grid, (tetromino.row + row) * grid, grid-1, grid-1);
+          }
+        }
+      }
+    }
+  } else {
+    return showGameStart();
+  }
+}
+
+document.getElementById('start-game').onclick = () => {
+  if (!gameStart) {
+    gameStart = true;
+    tetromino = nextTetromino;
+    nextTetromino = getNextTetromino();
+  }
+}
+
+document.getElementById('pause-game').onclick = (e) => {
+  if (gameStart) {
+    if (!gamePause) {
+      gamePause = true;
+      e.target.innerText = 'Resume';
+    } else {
+      requestAnimationFrame(game);
+      gamePause = false;
+      e.target.innerText = 'Pause';
     }
   }
 }
@@ -281,6 +333,8 @@ document.addEventListener('keydown', (e) => {
       tetromino.row = row - 1;
 
       placeTetromino();
+      tetromino = nextTetromino;
+      nextTetromino = getNextTetromino();
       return;
     }
 
