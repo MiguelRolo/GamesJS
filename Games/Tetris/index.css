@@ -65,6 +65,10 @@ body {
   text-align: center;
 }
 
+#board > #settings > #keys table tr td {
+  white-space: nowrap;
+}
+
 /*#board > #game {
   border: 1px solid black;
   height: 75vh;

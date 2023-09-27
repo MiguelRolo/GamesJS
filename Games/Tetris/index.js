@@ -4,8 +4,12 @@ const context = canvas.getContext('2d');
 const nextPieceCanvas = document.getElementById('nextpiece');
 const nextPieceContext = nextPieceCanvas.getContext('2d');
 
+const holdPieceCanvas = document.getElementById('holdpiece');
+const holdPieceContext = holdPieceCanvas.getContext('2d');
+
 canvas.style.border = '1px solid white';
 nextPieceCanvas.style.border = '1px solid white';
+holdPieceCanvas.style.border = '1px solid white';
 
 const playfield = [];
 const tetrominoSequence = [];
@@ -138,7 +142,6 @@ function placeTetromino() {
   for (let row = playfield.length - 1; row >= 0; ) {
     if (playfield[row].every(cell => !!cell))  {
       linesCounter++;
-      document.getElementById('lines-counter').innerText = ('0' + linesCounter).slice(-2);
       for (let r = row; r >= 0; r--) {
         for (let c = 0; c < playfield[r].length; c++) {
           playfield[r][c] = playfield[r-1][c];
@@ -155,8 +158,11 @@ function showGameOver() {
   cancelAnimationFrame(rAF);
   gameOver = true;
 
+  context.fillStyle = 'rgba(15,15,15,0.5)';
+  context.fillRect(0, 0, canvas.width, canvas.height);
+
   context.fillStyle = 'firebrick';
-  context.fillRect(0, canvas.height / 2 - 30, canvas.width, 60);
+  context.fillRect(0, canvas.height / 2 - 30, canvas.width, 90);
 
   context.globalAlpha = 1;
   context.fillStyle = 'white';
@@ -164,11 +170,15 @@ function showGameOver() {
   context.textAlign = 'center';
   context.textBaseline = 'middle';
   context.fillText('GAME OVER', canvas.width / 2, canvas.height / 2);
+  context.fillText('Press "N" to try again', canvas.width / 2, (canvas.height / 2) + 30);
 }
 
 function showGameStart() {
+  context.fillStyle = 'rgba(15,15,15,0.5)';
+  context.fillRect(0, 0, canvas.width, canvas.height);
+
   context.fillStyle = 'firebrick';
-  context.fillRect(0, canvas.height / 2 - 30, canvas.width, 60);
+  context.fillRect(0, canvas.height / 2 - 30, canvas.width, 90);
 
   context.globalAlpha = 1;
   context.fillStyle = 'white';
@@ -176,6 +186,20 @@ function showGameStart() {
   context.textAlign = 'center';
   context.textBaseline = 'middle';
   context.fillText('START GAME', canvas.width / 2, canvas.height / 2);
+  context.fillText('Press "N" to start', canvas.width / 2, (canvas.height / 2) + 30);
+}
+
+function showGamePause() {
+  context.fillStyle = 'rgba(15,15,15,0.5)';
+  context.fillRect(0, 0, canvas.width, canvas.height);
+
+  context.globalAlpha = 1;
+  context.fillStyle = 'white';
+  context.font = '15px monospace';
+  context.textAlign = 'center';
+  context.textBaseline = 'middle';
+  context.fillText('GAME PAUSED', canvas.width / 2, canvas.height / 2);
+  context.fillText('Press "P" to continue', canvas.width / 2, (canvas.height / 2) + 30);
 }
 
 
@@ -220,8 +244,12 @@ function game() {
   if (!gamePause) {
     rAF = requestAnimationFrame(game);
   }
+
+  document.getElementById('lines-counter').innerText = ('0' + linesCounter).slice(-2);
+
   context.clearRect(0, 0, canvas.width, canvas.height);
   nextPieceContext.clearRect(0, 0, nextPieceCanvas.width, nextPieceCanvas.height);
+  holdPieceContext.clearRect(0, 0, holdPieceCanvas.width, holdPieceCanvas.height);
 
   for (let row = 0; row < 20; row++) {
     for (let column = 0; column < 10; column++) {
@@ -238,13 +266,16 @@ function game() {
       }
     }
   }
-
   
   for (let row = 0; row < 5; row++) {
     for (let column = 0; column < 5; column++) {
       nextPieceContext.fillStyle = 'rgba(25,25,25,0.05)';
       nextPieceContext.fillRect(0, row * grid, nextPieceCanvas.width, grid - 1);
       nextPieceContext.fillRect(column * grid, 0, grid - 1, nextPieceCanvas.height);
+
+      holdPieceContext.fillStyle = 'rgba(25,25,25,0.05)';
+      holdPieceContext.fillRect(0, row * grid, holdPieceCanvas.width, grid - 1);
+      holdPieceContext.fillRect(column * grid, 0, grid - 1, holdPieceCanvas.height);
     }
   }
   
@@ -304,18 +335,36 @@ function game() {
         }
       }
     }
+
+    if (gamePause) {
+      showGamePause();
+    }
   } else {
     return showGameStart();
   }
 }
 
-document.getElementById('start-game').onclick = () => {
+document.getElementById('start-game').onclick = (e) => {
   if (!gameStart) {
     gameStart = true;
     tetromino = nextTetromino;
     nextTetromino = getNextTetromino();
+    e.target.innerText = 'New Game';
+  } 
+  if (gameStart) {
+    gameStart = true;
+    for (let row = 0; row < 20; row++) {
+      for (let column = 0; column < 10; column++) {
+        playfield[row][column] = 0;
+      }
+    }
+    tetromino = nextTetromino;
+    nextTetromino = getNextTetromino();
+    linesCounter = 0;
+
   }
 }
+
 
 document.getElementById('pause-game').onclick = (e) => {
   if (gameStart) {
@@ -333,36 +382,69 @@ document.getElementById('pause-game').onclick = (e) => {
 document.addEventListener('keydown', (e) => {
   if (gameOver) return;
 
-  if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-    const col = e.key === 'ArrowLeft'
-      ? tetromino.column - 1
-      : tetromino.column + 1;
-
-    if (isValidMove(tetromino.matrix, tetromino.row, col)) {
-      tetromino.column = col;
-    }
-  }
-
-  if (e.key === 'ArrowUp') {
-    const matrix = rotate(tetromino.matrix);
-    if (isValidMove(matrix, tetromino.row, tetromino.column)) {
-      tetromino.matrix = matrix;
-    }
-  }
-
-  if(e.key === 'ArrowDown') {
-    const row = tetromino.row + 1;
-
-    if (!isValidMove(tetromino.matrix, row, tetromino.column)) {
-      tetromino.row = row - 1;
-
-      placeTetromino();
+  if (!gameStart) {
+    if (e.key === 'n') {
+      gameStart = true;
       tetromino = nextTetromino;
       nextTetromino = getNextTetromino();
-      return;
+      document.getElementById('start-game').innerText = 'New Game';
+    }
+  }
+
+  if (gameStart) {
+    if (e.key === 'n') {
+      gameStart = true;
+      for (let row = 0; row < 20; row++) {
+        for (let column = 0; column < 10; column++) {
+          playfield[row][column] = 0;
+        }
+      }
+      tetromino = nextTetromino;
+      nextTetromino = getNextTetromino();
+      linesCounter = 0;
+    }
+    if (e.key === 'p') {
+      if (!gamePause) {
+        gamePause = true;
+        document.getElementById('pause-game').innerText = 'Resume';
+      } else {
+        requestAnimationFrame(game);
+        gamePause = false;
+        document.getElementById('pause-game').innerText = 'Pause';
+      }
     }
 
-    tetromino.row = row;
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+      const col = e.key === 'ArrowLeft'
+        ? tetromino.column - 1
+        : tetromino.column + 1;
+  
+      if (isValidMove(tetromino.matrix, tetromino.row, col)) {
+        tetromino.column = col;
+      }
+    }
+  
+    if (e.key === 'ArrowUp') {
+      const matrix = rotate(tetromino.matrix);
+      if (isValidMove(matrix, tetromino.row, tetromino.column)) {
+        tetromino.matrix = matrix;
+      }
+    }
+  
+    if(e.key === 'ArrowDown') {
+      const row = tetromino.row + 1;
+  
+      if (!isValidMove(tetromino.matrix, row, tetromino.column)) {
+        tetromino.row = row - 1;
+  
+        placeTetromino();
+        tetromino = nextTetromino;
+        nextTetromino = getNextTetromino();
+        return;
+      }
+  
+      tetromino.row = row;
+    }
   }
 });
 
