@@ -291,8 +291,8 @@ function game() {
                 ? col * grid 
                 : (col + 1) * grid, 
               holdTetromino.name === 'I' ? row * grid : (row + 1) * grid, 
-              grid-1, 
-              grid-1
+              grid - 1, 
+              grid - 1
             );
             holdPieceContext.fillStyle = colors[holdTetromino.name];
             holdPieceContext.fillRect(
@@ -311,7 +311,6 @@ function game() {
     }
 
     if (nextTetromino) {
-      
       for (let row = 0; row < nextTetromino.matrix.length; row++) {
         for (let col = 0; col < nextTetromino.matrix[row].length; col++) {
           if (nextTetromino.matrix[row][col]) {
@@ -340,7 +339,34 @@ function game() {
       }
     }
     if (tetromino) {
-  
+      for (let row = 0; row < tetromino.matrix.length; row++) {
+        for (let col = 0; col < tetromino.matrix[row].length; col++) {
+          if (tetromino.matrix[row][col]) {
+            if (isValidMove(tetromino.matrix, 18, col)) {
+              context.fillStyle = 'white',
+              context.fillRect(
+                (tetromino.column + col) * grid,
+                (18 + row) * grid, 
+                grid - 1, 
+                grid - 1
+              );  
+            }
+          }
+          /*if (
+            tetromino.matrix[row][col] &&
+            isValidMove(tetromino.matrix, 18, tetromino.column)
+          ) {
+            context.fillStyle = 'white',
+            context.fillRect(
+              (tetromino.column + col) * grid,
+              (18 + row) * grid, 
+              grid - 1, 
+              grid - 1
+            );
+          }*/
+        }
+      }
+
       if (++count > 35) {
         tetromino.row++;
         count = 0;
@@ -353,7 +379,6 @@ function game() {
         }
       }
   
-      
       for (let row = 0; row < tetromino.matrix.length; row++) {
         for (let col = 0; col < tetromino.matrix[row].length; col++) {
           if (tetromino.matrix[row][col]) {
@@ -391,7 +416,6 @@ document.getElementById('start-game').onclick = (e) => {
     tetromino = nextTetromino;
     nextTetromino = getNextTetromino();
     linesCounter = 0;
-
   }
 }
 
@@ -442,7 +466,18 @@ document.addEventListener('keydown', (e) => {
       }
     }
     if (e.key === ' ') {
-      console.log('drop')
+      count = 0;
+      while (count < 35) {
+        ++count;
+        tetromino.row++;
+        if (!isValidMove(tetromino.matrix, tetromino.row, tetromino.column)) {
+          tetromino.row--;
+          placeTetromino();
+          tetromino = nextTetromino;
+          nextTetromino = getNextTetromino();
+          return;
+        } 
+      }
     }
     if (e.key === 'x' && !holdTetromino) {
       holdTetromino = tetromino;
