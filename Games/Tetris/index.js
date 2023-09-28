@@ -401,8 +401,7 @@ document.addEventListener('keydown', (e) => {
     if (e.key === ' ') {
       count = 0;
       while (count < 35) {
-        tetromino.row++;
-        count++;
+        tetromino.row = count++;
         if (!isValidMove(tetromino.matrix, tetromino.row, tetromino.column)) {
           tetromino.row--;
           placeTetromino();
