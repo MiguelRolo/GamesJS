@@ -16,6 +16,14 @@
 
 5. **Longevity**: Open source projects tend to have longer lifespans, as they are not reliant on a single entity, ensuring sustainability.
 
+## Tech Stack ⚡
+
+Most of the games are **Client-Side based** coded wiht **HTML5**, **CSS3** and **JS**
+
+![HTML5](https://img.shields.io/badge/HTML5-E34F26.svg?style=for-the-badge&logo=HTML5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6.svg?style=for-the-badge&logo=CSS3&logoColor=white)
+![Javascript](https://img.shields.io/badge/Javascript-F7DF1E.svg?style=for-the-badge&logo=javascript&logoColor=black)
+
 ## Installation 📥
 
 > Install GameJS Repository with npm
@@ -29,9 +37,9 @@
 
 ## License 🪪
 
-(Apache License, Version 2.0) You're free to use this games and codes in any project, personal or commercial. 
-
-There's no need to ask permission before using theses. Giving attribution is not required, but appreciated.
+> (Apache License, Version 2.0) You're free to use this games and codes in any project, personal or commercial. 
+>
+> There's no need to ask permission before using theses. Giving attribution is not required, but appreciated.
 
 ## Further Exploration 🔭
 
