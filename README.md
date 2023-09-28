@@ -47,4 +47,4 @@ Games in total: `1`
 
 | No.     | Name of the game |
 | :---:   | ---- |
-| 1       | <a href='tetris'>Tetris</a>  |
+| 1       | <a href='https://github.com/MiguelRolo/GamesJS/tree/main/Games/Tetris'>Tetris</a>  |
