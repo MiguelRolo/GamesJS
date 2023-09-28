@@ -4,12 +4,8 @@ const context = canvas.getContext('2d');
 const nextPieceCanvas = document.getElementById('nextpiece');
 const nextPieceContext = nextPieceCanvas.getContext('2d');
 
-const holdPieceCanvas = document.getElementById('holdpiece');
-const holdPieceContext = holdPieceCanvas.getContext('2d');
-
 canvas.style.border = '1px solid white';
 nextPieceCanvas.style.border = '1px solid white';
-holdPieceCanvas.style.border = '1px solid white';
 
 const playfield = [];
 const tetrominoSequence = [];
@@ -215,7 +211,6 @@ let count = 0;
 let linesCounter = 0;
 let nextTetromino = getNextTetromino();
 let tetromino = nextTetromino;
-let holdTetromino = null;
 let rAF = null;
 let gameOver = false;
 let gameStart = false;
@@ -250,7 +245,6 @@ function game() {
 
   context.clearRect(0, 0, canvas.width, canvas.height);
   nextPieceContext.clearRect(0, 0, nextPieceCanvas.width, nextPieceCanvas.height);
-  holdPieceContext.clearRect(0, 0, holdPieceCanvas.width, holdPieceCanvas.height);
 
   for (let row = 0; row < 20; row++) {
     for (let column = 0; column < 10; column++) {
@@ -267,49 +261,17 @@ function game() {
       }
     }
   }
-  
+
   for (let row = 0; row < 5; row++) {
     for (let column = 0; column < 5; column++) {
       nextPieceContext.fillStyle = 'rgba(25,25,25,0.05)';
       nextPieceContext.fillRect(0, row * grid, nextPieceCanvas.width, grid - 1);
       nextPieceContext.fillRect(column * grid, 0, grid - 1, nextPieceCanvas.height);
-
-      holdPieceContext.fillStyle = 'rgba(25,25,25,0.05)';
-      holdPieceContext.fillRect(0, row * grid, holdPieceCanvas.width, grid - 1);
-      holdPieceContext.fillRect(column * grid, 0, grid - 1, holdPieceCanvas.height);
     }
   }
   
+  
   if (gameStart) {
-    if (holdTetromino) {
-      for (let row = 0; row < holdTetromino.matrix.length; row++) {
-        for (let col = 0; col < holdTetromino.matrix[row].length; col++) {
-          if (holdTetromino.matrix[row][col]) {
-            holdPieceContext.fillStyle = 'white';
-            holdPieceContext.fillRect(
-              holdTetromino.name === 'I' 
-                ? col * grid 
-                : (col + 1) * grid, 
-              holdTetromino.name === 'I' ? row * grid : (row + 1) * grid, 
-              grid - 1, 
-              grid - 1
-            );
-            holdPieceContext.fillStyle = colors[holdTetromino.name];
-            holdPieceContext.fillRect(
-              holdTetromino.name === 'I'
-                ? (col * grid) + 1
-                : ((col + 1) * grid) + 1, 
-              holdTetromino.name === 'I'
-                ? (row * grid) + 1
-                : ((row + 1) * grid) + 1, 
-              (grid-1) - 2, 
-              (grid-1) - 2
-            )
-          }
-        }
-      }
-    }
-
     if (nextTetromino) {
       for (let row = 0; row < nextTetromino.matrix.length; row++) {
         for (let col = 0; col < nextTetromino.matrix[row].length; col++) {
@@ -339,34 +301,6 @@ function game() {
       }
     }
     if (tetromino) {
-      for (let row = 0; row < tetromino.matrix.length; row++) {
-        for (let col = 0; col < tetromino.matrix[row].length; col++) {
-          if (tetromino.matrix[row][col]) {
-            if (isValidMove(tetromino.matrix, 18, col)) {
-              context.fillStyle = 'white',
-              context.fillRect(
-                (tetromino.column + col) * grid,
-                (18 + row) * grid, 
-                grid - 1, 
-                grid - 1
-              );  
-            }
-          }
-          /*if (
-            tetromino.matrix[row][col] &&
-            isValidMove(tetromino.matrix, 18, tetromino.column)
-          ) {
-            context.fillStyle = 'white',
-            context.fillRect(
-              (tetromino.column + col) * grid,
-              (18 + row) * grid, 
-              grid - 1, 
-              grid - 1
-            );
-          }*/
-        }
-      }
-
       if (++count > 35) {
         tetromino.row++;
         count = 0;
@@ -444,7 +378,6 @@ document.addEventListener('keydown', (e) => {
     document.getElementById('start-game').innerText = 'New Game';
     gameStart = true;
     linesCounter = 0;
-    holdTetromino = null;
     for (let row = 0; row < 20; row++) {
       for (let column = 0; column < 10; column++) {
         playfield[row][column] = 0;
@@ -468,8 +401,8 @@ document.addEventListener('keydown', (e) => {
     if (e.key === ' ') {
       count = 0;
       while (count < 35) {
-        ++count;
         tetromino.row++;
+        count++;
         if (!isValidMove(tetromino.matrix, tetromino.row, tetromino.column)) {
           tetromino.row--;
           placeTetromino();
@@ -478,11 +411,6 @@ document.addEventListener('keydown', (e) => {
           return;
         } 
       }
-    }
-    if (e.key === 'x' && !holdTetromino) {
-      holdTetromino = tetromino;
-      tetromino = nextTetromino;
-      nextTetromino = getNextTetromino();
     }
 
     if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
@@ -501,7 +429,7 @@ document.addEventListener('keydown', (e) => {
         tetromino.matrix = matrix;
       }
     }
-  
+    
     if(e.key === 'ArrowDown') {
       const row = tetromino.row + 1;
   
