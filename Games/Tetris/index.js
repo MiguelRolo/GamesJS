@@ -56,7 +56,7 @@ const colors = {
   'S': 'green',
   'Z': 'red',
   'J': 'blue',
-  'L': '#e24ee7'
+  'L': 'orange'
 };
 
 function getRandomInt(min, max) {
