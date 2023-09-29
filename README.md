@@ -4,6 +4,16 @@
 - Use your creativity, build your own game and contribute to the repository by making a PR
 - Make sure to ⭐️ the repository to stay tuned! 
 
+## Games that you can find 🔭
+
+Games in total: `2`
+
+|                                         |                                            |
+|               :---:                     |                 :---:                      |
+| ![Tetris](./assets/tetris-show.png)     | ![Pong](./assets/pong-show.png)            |
+
+*And <a href='https://github.com/MiguelRolo/GamesJS/tree/main/Games'>more</a>...*
+
 ## Why to Open Source 🌐
 
 1. **Community Collaboration**: Open sourcing your project invites a global community of developers to contribute, share ideas, and enhance its capabilities.
@@ -41,18 +51,10 @@ Most of the games are **Client-Side based** coded wiht **HTML5**, **CSS3** and *
 >
 > There's no need to ask permission before using theses. Giving attribution is not required, but appreciated.
 
-## Further Exploration 🔭
-
-- Pong
-- Flappy Bird
-- Snake
-- Breakout
-- *and more...*
-
-
 ## Games List 🤖
-Games in total: `1`
+Games in total: `2`
 
 | No.     | Name of the game |
 | :---:   | ---- |
-| 1       | <a href='https://github.com/MiguelRolo/GamesJS/tree/main/Games/Tetris'>Tetris</a>  |
+| 1       | <a href='https://github.com/MiguelRolo/GamesJS/tree/main/Games/Pong'>Pong</a>  |
+| 2       | <a href='https://github.com/MiguelRolo/GamesJS/tree/main/Games/Tetris'>Tetris</a>  |
