@@ -8,6 +8,8 @@
 
 ![Game Started](./assets/game-started.png)
 
+Play demo <a href='https://miguelrolo.github.io/Repository/GamesJS/Pong/'>here</a>
+
 ## Tech Stack ⚡
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26.svg?style=for-the-badge&logo=HTML5&logoColor=white)
