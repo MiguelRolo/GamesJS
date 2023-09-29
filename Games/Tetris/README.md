@@ -6,7 +6,7 @@
 
 # Tetris
 
-![Game Started](./assets/game-started.png)
+![Game Show](./assets/game-show.png)
 
 ## Tech Stack ⚡
 
@@ -33,9 +33,9 @@ Keys:
 - ⬆️ *(Up Arrow Key)*- **Rotate Piece**
 - ⬅️ ➡️ *(Left/Right Arrow Key)* - **Move Piece**
 - ⬇️ *(Down Arrow Key)* - **Move Down Piece**
-- *SPACE* *(Space Bar)* - **Drop Piece**
-- *P* - **Pause Game**
-- *N* - **New Game**
+- *`SPACE`* *(Space Bar)* - **Drop Piece**
+- *`P`* - **Pause Game**
+- *`N`* - **New Game**
 
 ## Screenshots 📸
 
