@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pong JS</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <section>
+    <section id="title">
+      <h3>Pong JS</h3>
+      <a href="https://github.com/MiguelRolo/GamesJS/tree/main/Games/Pong" target="_blank">
+        <img 
+          alt="Repository" 
+          title="Repository" 
+          style="border-radius: 15px;"
+          src="https://img.shields.io/badge/Repository-181717?style=for-the-badge&logo=github&logoColor=white"
+        />
+      </a>
+    </section>
+    <section id="settings">
+      <span><b>FPS:</b><span id="fps-counter">00</span></span>
+      <span><b>Max Score:</b><span id="max-score">00</span></span>
+    </section>
+    <section id="keys">
+      <table>
+        <tr>
+          <td><b>W</b></td>
+          <td><div style="width:20px;"></div></td>
+          <td>Move Left Paddle Up</td>
+        </tr>
+        <tr>
+          <td><b>S</b></td>
+          <td><div style="width:20px;"></div></td>
+          <td>Move Left Paddle Down</td>
+        </tr>
+        <tr>
+          <td><b>&nbsp;</b></td>
+          <td><div style="width:20px;"></div></td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td><b>⬆️</b></td>
+          <td><div style="width:20px;"></div></td>
+          <td>Move Right Paddle Up</td>
+        </tr>
+        <tr>
+          <td><b>⬇️</b></td>
+          <td><div style="width:20px;"></div></td>
+          <td>Move Right Paddle Down</td>
+        </tr>
+        <tr>
+          <td><b>&nbsp;</b></td>
+          <td><div style="width:20px;"></div></td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td><b>+</b></td>
+          <td><div style="width:20px;"></div></td>
+          <td>Increase Max. score</td>
+        </tr>
+        <tr>
+          <td><b>-</b></td>
+          <td><div style="width:20px;"></div></td>
+          <td>Decrease Max. score</td>
+        </tr>
+        <tr>
+          <td><b>&nbsp;</b></td>
+          <td><div style="width:20px;"></div></td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td><b>P</b></td>
+          <td><div style="width:20px;"></div></td>
+          <td>Pause</td>
+        </tr>
+        <tr>
+          <td><b>N</b></td>
+          <td><div style="width:20px;"></div></td>
+          <td>New Game</td>
+        </tr>
+      </table>
+    </section>
+  </section>
+  <canvas id="jogo" width="750" height="600"></canvas>
+  <script src="index.js"></script>
+</body>
+</html>
