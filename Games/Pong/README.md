@@ -8,7 +8,7 @@
 
 ![Game Started](./assets/game-started.png)
 
-Play demo <a href='https://miguelrolo.github.io/Repository/GamesJS/Pong/'>here</a>
+Play demo <a href='https://miguelrolo.github.io/Repository/GamesJS/Pong/' target='_blank'>here</a>
 
 ## Tech Stack ⚡
 

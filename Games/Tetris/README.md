@@ -8,7 +8,7 @@
 
 ![Game Show](./assets/game-show.png)
 
-Play demo <a href='https://miguelrolo.github.io/Repository/GamesJS/Tetris/'>here</a>
+Play demo <a href='https://miguelrolo.github.io/Repository/GamesJS/Tetris/' target='_blank'>here</a>
 
 ## Tech Stack ⚡
 
