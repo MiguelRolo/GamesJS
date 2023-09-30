@@ -216,24 +216,19 @@ let gameOver = false;
 let gameStart = false;
 let gamePause = false;
 
-function fpsMeter() {
-  let prevTime = Date.now();
-  let frames = 0;
-  let counter = document.getElementById('fps-counter');
+const times = [];
+let fps;
 
-  requestAnimationFrame(function meter() {
-    const time = Date.now();
-    frames++;
-    if (time > prevTime + 1000) {
-      let fps = Math.round( ( frames * 1000 ) / ( time - prevTime ) );
-      prevTime = time;
-      frames = 0;
-
-      counter.innerText = ('0' + fps).slice(-2);
+function refreshLoop() {
+  window.requestAnimationFrame(() => {
+    const now = performance.now();
+    while (times.length > 0 && times[0] <= now - 1000) {
+      times.shift();
     }
-
-    requestAnimationFrame(meter);
-  })
+    times.push(now);
+    document.getElementById('fps-counter').innerText = times.length;
+    refreshLoop();
+  });
 }
 
 function game() {
@@ -448,5 +443,5 @@ document.addEventListener('keydown', (e) => {
 
 rAF = requestAnimationFrame(game);
 window.onload = () => {
-  fpsMeter();
+  refreshLoop();
 }

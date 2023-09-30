@@ -97,25 +97,19 @@ function showGameOver(paddle) {
   context.fillText('Press "N" to try again', canvas.width / 2, (canvas.height / 2) + 30);
 }
 
-function fpsMeter() {
-  let prevTime = Date.now();
-  let frames = 0;
-  let counter = document.getElementById('fps-counter');
-  
-  requestAnimationFrame(function meter() {
-    const time = Date.now();
-    frames++;
-    if (time > prevTime + 1000) {
-      let fps = Math.round( ( frames * 1000 ) / ( time - prevTime ) );
-      prevTime = time;
-      frames = 0;
-      
-      counter.innerText = ('0' + fps).slice(-2);
+const times = [];
+let fps;
+
+function refreshLoop() {
+  window.requestAnimationFrame(() => {
+    const now = performance.now();
+    while (times.length > 0 && times[0] <= now - 1000) {
+      times.shift();
     }
-    document.getElementById('max-score').innerText = ('0' + maxScore).slice(-2);
-    
-    requestAnimationFrame(meter);
-  })
+    times.push(now);
+    document.getElementById('fps-counter').innerText = times.length;
+    refreshLoop();
+  });
 }
 
 let scoreLeft = 0;
@@ -281,5 +275,5 @@ document.addEventListener('keyup', (e) => {
 
 rAF = requestAnimationFrame(game);
 window.onload = () => {
-  fpsMeter();
+  refreshLoop();
 }
