@@ -233,7 +233,11 @@ function refreshLoop() {
 
 function game() {
   if (!gamePause) {
-    rAF = requestAnimationFrame(game);
+    rAF = requestAnimationFrame(() => {
+      setTimeout(() => {
+        game();
+      }, 1000 / 100); // 100 fps
+    });
   }
 
   document.getElementById('lines-counter').innerText = ('0' + linesCounter).slice(-2);
