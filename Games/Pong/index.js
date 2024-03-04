@@ -144,6 +144,8 @@ function game() {
     context.fillRect(canvas.width / 2 - grid / 2, i, grid, grid);
   }
 
+  document.getElementById('max-score').innerText = ('0' + maxScore).slice(-2);
+
   if (gameStart) {
     paddleLeft.y += paddleLeft.dy;
     paddleRight.y += paddleRight.dy;
