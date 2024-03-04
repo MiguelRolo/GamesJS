@@ -123,7 +123,11 @@ let gamePause = false;
 
 function game() {
   if (!gamePause) {
-    rAF = requestAnimationFrame(game);
+    rAF = requestAnimationFrame(() => {
+      setTimeout(() => {
+        game();
+      }, 1000 / 100); // 100 fps
+    });
   }
 
   context.clearRect(0, 0, canvas.width, canvas.height);
